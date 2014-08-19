@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+	<bean id="log-filter" class="com.alibaba.druid.filter.logging.Log4jFilter">
+        <property name="statementExecutableSqlLogEnable" value="true" />
+  	</bean>
+	<!-- 数据库连接池 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+    init-method="init" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/origami" />
+        <property name="username" value="root" />
+        <property name="password" value="root" />
+        <!-- 配置初始化大小、最小、最大 -->
+	    <property name="initialSize" value="3" />
+	    <property name="minIdle" value="1" />
+	    <property name="maxActive" value="50" />
+
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <property name="maxWait" value="60000" />
+
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <property name="timeBetweenEvictionRunsMillis" value="60000" />
+
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <property name="minEvictableIdleTimeMillis" value="300000" />
+
+	    <property name="validationQuery" value="SELECT 'x'" />
+	    <property name="testWhileIdle" value="true" />
+	    <property name="testOnBorrow" value="false" />
+	    <property name="testOnReturn" value="false" />
+
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <!-- <property name="poolPreparedStatements" value="true" />
+	    <property name="maxPoolPreparedStatementPerConnectionSize" value="20" /> -->
+
+	    <!-- 配置监控统计拦截的filters，去掉后监控界面sql无法统计 -->
+	    <property name="filters" value="stat" />
+	    <!-- 配置输出日志输出可执行的SQL -->
+	    <property name="proxyFilters">
+        <list>
+            <ref bean="log-filter"/>
+        </list>
+    </property>
+    </bean>
+
+	<!-- StringHttpMessageConverter bean
+	<bean id = "stringHttpMessageConverter" class = "org.springframework.http.converter.StringHttpMessageConverter"/>
+	启动Spring MVC的注解功能，完成请求和注解POJO的映射
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	       <property name= "messageConverters" >
+	             <list>
+	                 <ref bean= "mappingJacksonHttpMessageConverter" />
+	                 新增的StringMessageConverter bean
+	                 <ref bean= "stringHttpMessageConverter" />
+	                 <ref bean= "jsonHttpMessageConverter" />
+	                 <ref bean= "formHttpMessageConverter" />
+	             </list>
+	        </property>
+	</bean> -->
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding">
+            <value>UTF-8</value>
+        </property>
+        <property name="maxUploadSize">
+            <value>2048000</value>
+        </property>
+        <property name="maxInMemorySize">
+            <value>4096</value>
+        </property>
+    </bean>
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+        <!-- MyBatis 的 XML 配置文件路径 -->
+        <property name="configLocation" value="classpath:sqlMapConfig.xml" />
+        <!-- 扫描自动生成的xml文件 --><!-- Mybatis XML映射文件 -->
+
+        <property name="mapperLocations">
+            <list>
+                <value>classpath*:com/ldl/origami/mapper/*.xml</value>
+            </list>
+        </property>
+
+    </bean>
+
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
+    </bean>
+
+	<!-- 扫描mybatisGenerator 自动生成的  所有接口-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" >
+        <property name="basePackage" value="com.ldl.origami.dao" ></property>
+    </bean>
+
+    <!-- 数据库事务策略-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+        <!--
+            <tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="ins*" propagation="REQUIRED" />
+            <tx:method name="del*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="find*" read-only="true" />
+            <tx:method name="get*" read-only="true" />
+            <tx:method name="select*" read-only="true" />
+             -->
+            <tx:method name="*" propagation="REQUIRED" />
+        </tx:attributes>
+    </tx:advice>
+</beans>
