@@ -424,6 +424,76 @@ public class NewsExample {
             addCriterion("state not between", value1, value2, "state");
             return (Criteria) this;
         }
+
+        public Criteria andNewsTitleIsNull() {
+            addCriterion("news_title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsTitleIsNotNull() {
+            addCriterion("news_title is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsTitleEqualTo(String value) {
+            addCriterion("news_title =", value, "newsTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsTitleNotEqualTo(String value) {
+            addCriterion("news_title <>", value, "newsTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsTitleGreaterThan(String value) {
+            addCriterion("news_title >", value, "newsTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("news_title >=", value, "newsTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsTitleLessThan(String value) {
+            addCriterion("news_title <", value, "newsTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsTitleLessThanOrEqualTo(String value) {
+            addCriterion("news_title <=", value, "newsTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsTitleLike(String value) {
+            addCriterion("news_title like", value, "newsTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsTitleNotLike(String value) {
+            addCriterion("news_title not like", value, "newsTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsTitleIn(List<String> values) {
+            addCriterion("news_title in", values, "newsTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsTitleNotIn(List<String> values) {
+            addCriterion("news_title not in", values, "newsTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsTitleBetween(String value1, String value2) {
+            addCriterion("news_title between", value1, value2, "newsTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewsTitleNotBetween(String value1, String value2) {
+            addCriterion("news_title not between", value1, value2, "newsTitle");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

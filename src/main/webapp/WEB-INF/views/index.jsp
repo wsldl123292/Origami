@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: Administrator
@@ -23,7 +22,7 @@
 <body>
 <c:choose>
     <c:when test="${user==null}">
-        Hello,游客,<a href="/Origami/login">请登录</a><a href="/Origami/registerIndex">请注册</a>
+        Hello,游客,<a href="/Origami/login">请登录</a><a href="/Origami/registerIndex?userName=${user.headimage}">请注册</a>
     </c:when>
     <c:otherwise>
         Hello,<img src="${user.headimage}" width="24" height="24" /> ${user.userName}|积分:${user.integral}|等级:${user.level}|消息<span
@@ -40,7 +39,13 @@
             websocket.onopen = function (evnt) {
             };
             websocket.onmessage = function (evnt) {
-                $("#msgcount").html("(<font color='red'>"+evnt.data+"</font>)")
+                if(evnt.data == 0){
+                    $("#msgcount").html("")
+                }else{
+                    $("#msgcount").html("(<a href='/Origami/viewNews' target='_blank'><font color='red'>" + evnt.data +
+                            "</font></a>)")
+                }
+
             };
             websocket.onerror = function (evnt) {
             };

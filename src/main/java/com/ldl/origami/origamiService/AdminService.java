@@ -32,10 +32,6 @@ public class AdminService {
     @Autowired(required = false)
     private NewsMapper newsMapper;
 
-    public AdminService(){
-        System.out.println("adminservice");
-    }
-
 
     /**
      * 验证登录
@@ -45,7 +41,7 @@ public class AdminService {
      */
     public String checkLogin(String username,String passwd){
         String result = "";
-        if(!username.equals("admin")){
+        if(!username.equals("entity")){
             return "error";
         }
         UserExample example = new UserExample();
@@ -158,6 +154,7 @@ public class AdminService {
     public int getUnReadNews(String userName){
         NewsExample example = new NewsExample();
         example.createCriteria().andUsernameEqualTo(userName).andStateEqualTo(0);
+        example.or().andUsernameEqualTo("ALL").andStateEqualTo(0);
         List<News> news = newsMapper.selectByExample(example);
         return news.size();
     }

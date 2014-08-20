@@ -41,12 +41,12 @@
 		<property name="exampleMethodVisibility" value="public" />
 	</javaClientGenerator>
 
-	<table tableName="user" domainObjectName="User">
+	<table tableName="news" domainObjectName="News">
 		<property name="useActualColumnNames"   value="false"/>
 	</table>
-    <table tableName="level" domainObjectName="Level">
+    <!--<table tableName="level" domainObjectName="Level">
 		<property name="useActualColumnNames"   value="false"/>
-	</table>
+	</table>-->
 
 	</context>
 </generatorConfiguration>

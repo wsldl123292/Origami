@@ -13,6 +13,8 @@ public class News {
 
     private Integer state;
 
+    private String newsTitle;
+
     public Integer getNewsId() {
         return newsId;
     }
@@ -51,5 +53,13 @@ public class News {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getNewsTitle() {
+        return newsTitle;
+    }
+
+    public void setNewsTitle(String newsTitle) {
+        this.newsTitle = newsTitle == null ? null : newsTitle.trim();
     }
 }

@@ -11,27 +11,35 @@ import java.util.List;
 /**
  * 功能描述:
  * 作者: LDL
- * 创建时间: 2014/8/14 10:11
+ * 创建时间: 2014/8/20 15:19
  */
 @Service
-public class WebSocketService {
+public class UserService {
 
     @Autowired(required = false)
     private NewsMapper newsMapper;
 
-
     /**
-     * 返回用户的未读消息
-     *
+     * 根据用户名查询未读消息
      * @param userName
      * @return
      */
-    public int getUnReadNews(String userName) {
+    public List<News> getNewsByUserName(String userName){
         NewsExample example = new NewsExample();
         example.createCriteria().andUsernameEqualTo(userName).andStateEqualTo(0);
         example.or().andUsernameEqualTo("ALL").andStateEqualTo(0);
-        List<News> news = newsMapper.selectByExample(example);
-        return news.size();
+        List<News> newses = newsMapper.selectByExample(example);
+        return newses;
     }
 
+
+    /**
+     * 根据消息ID查询消息
+     * @param newsId
+     * @return
+     */
+    public News getNewsById(int newsId){
+        News news = newsMapper.selectByPrimaryKey(newsId);
+        return news;
+    }
 }
