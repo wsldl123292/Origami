@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ldl.origami.dao.TutorialMapper" >
+  <resultMap id="BaseResultMap" type="com.ldl.origami.domain.Tutorial" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="introduce" property="introduce" jdbcType="VARCHAR" />
+    <result column="title_img_path" property="titleImgPath" jdbcType="VARCHAR" />
+    <result column="auditing" property="auditing" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.ldl.origami.domain.Tutorial" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, title, introduce, title_img_path, auditing, user_name, create_time, audit_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.ldl.origami.domain.TutorialExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tutorial
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ldl.origami.domain.TutorialExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tutorial
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tutorial
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tutorial
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ldl.origami.domain.TutorialExample" >
+    delete from tutorial
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ldl.origami.domain.Tutorial" >
+    insert into tutorial (id, title, introduce, 
+      title_img_path, auditing, user_name, 
+      create_time, audit_time, content
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR}, 
+      #{titleImgPath,jdbcType=VARCHAR}, #{auditing,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{auditTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ldl.origami.domain.Tutorial" >
+    insert into tutorial
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="introduce != null" >
+        introduce,
+      </if>
+      <if test="titleImgPath != null" >
+        title_img_path,
+      </if>
+      <if test="auditing != null" >
+        auditing,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="auditTime != null" >
+        audit_time,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null" >
+        #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="titleImgPath != null" >
+        #{titleImgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="auditing != null" >
+        #{auditing,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditTime != null" >
+        #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ldl.origami.domain.TutorialExample" resultType="java.lang.Integer" >
+    select count(*) from tutorial
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tutorial
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.introduce != null" >
+        introduce = #{record.introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="record.titleImgPath != null" >
+        title_img_path = #{record.titleImgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditing != null" >
+        auditing = #{record.auditing,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.auditTime != null" >
+        audit_time = #{record.auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update tutorial
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      introduce = #{record.introduce,jdbcType=VARCHAR},
+      title_img_path = #{record.titleImgPath,jdbcType=VARCHAR},
+      auditing = #{record.auditing,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      audit_time = #{record.auditTime,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tutorial
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      introduce = #{record.introduce,jdbcType=VARCHAR},
+      title_img_path = #{record.titleImgPath,jdbcType=VARCHAR},
+      auditing = #{record.auditing,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      audit_time = #{record.auditTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ldl.origami.domain.Tutorial" >
+    update tutorial
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null" >
+        introduce = #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="titleImgPath != null" >
+        title_img_path = #{titleImgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="auditing != null" >
+        auditing = #{auditing,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditTime != null" >
+        audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ldl.origami.domain.Tutorial" >
+    update tutorial
+    set title = #{title,jdbcType=VARCHAR},
+      introduce = #{introduce,jdbcType=VARCHAR},
+      title_img_path = #{titleImgPath,jdbcType=VARCHAR},
+      auditing = #{auditing,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ldl.origami.domain.Tutorial" >
+    update tutorial
+    set title = #{title,jdbcType=VARCHAR},
+      introduce = #{introduce,jdbcType=VARCHAR},
+      title_img_path = #{titleImgPath,jdbcType=VARCHAR},
+      auditing = #{auditing,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      audit_time = #{auditTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
