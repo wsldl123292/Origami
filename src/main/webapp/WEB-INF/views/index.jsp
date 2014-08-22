@@ -1,65 +1,143 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2014/7/16
-  Time: 21:22
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>折纸教程网</title>
 </head>
+<link href="uploadify/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="uploadify/jquery.min.js"></script>
-<script type="text/javascript" src="http://localhost:8080/Origami/websocket/sockjs-0.3.min.js"></script>
+<script type="text/javascript" src="uploadify/bootstrap.min.js"></script>
+<%--鼠标悬停弹出下拉菜单--%>
+<style>
+    .navbar .nav > li .dropdown-menu {
+        margin: 0;
+    }
+
+    .navbar .nav > li:hover .dropdown-menu {
+        display: block;
+    }
+
+    /*修改内容显示*/
+    .media > .pull-left {
+        margin-right: 5px;
+    }
+
+    .media-heading {
+        margin: 0 5px 3px;
+    }
+
+    .container {
+        padding-right: 60px;
+        padding-left: 80px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .row {
+        margin-right: -100px;
+        margin-left: 10px;
+    }
+
+    .col-xs-4 {
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 80px;
+    }
+</style>
 <script language="javascript">
     function show(id){
         document.getElementById("id").setAttribute("value",id);
         contentForm.submit();
     }
 </script>
-<body>
-<c:choose>
-    <c:when test="${user==null}">
-        Hello,游客,<a href="/Origami/login">请登录</a><a href="/Origami/registerIndex?userName=${user.headimage}">请注册</a>
-    </c:when>
-    <c:otherwise>
-        Hello,<img src="${user.headimage}" width="24" height="24" /> ${user.userName}|积分:${user.integral}|等级:${user.level}|消息<span
-        id="msgcount"></span>|<a href="/Origami/addTutorialPage">发布教程</a>
-        <script>
-            var websocket;
-            if ('WebSocket' in window) {
-                websocket = new WebSocket("ws://localhost:8080/Origami/webSocketServer");
-            } else if ('MozWebSocket' in window) {
-                websocket = new MozWebSocket("ws://localhost:8080/Origami/webSocketServer");
-            } else {
-                websocket = new SockJS("http://localhost:8080/Origami/sockjs/webSocketServer");
-            }
-            websocket.onopen = function (evnt) {
-            };
-            websocket.onmessage = function (evnt) {
-                if(evnt.data == 0){
-                    $("#msgcount").html("")
-                }else{
-                    $("#msgcount").html("(<a href='/Origami/viewNews' target='_blank'><font color='red'>" + evnt.data +
-                            "</font></a>)")
-                }
+<body style="padding-top: 70px;">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">折纸</a>
+        </div>
 
-            };
-            websocket.onerror = function (evnt) {
-            };
-            websocket.onclose = function (evnt) {
-            }
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/Origami/index">首页</a></li>
+                <li><a href="#">排行</a></li>
+                <li><a href="#">发布教程</a></li>
+                <li><a href="#">帮助</a></li>
+                <li><a href="#">建议</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search" size="50">
+                </div>
+                <button type="submit" class="btn btn-default">查询</button>
+            </form>
+            <c:choose>
+                <c:when test="${user==null}">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/Origami/login">登录</a></li>
+                        <li><a href="/Origami/registerIndex">注册</a></li>
+                    </ul>
+                </c:when>
+                <c:otherwise>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="${user.headimage}" width="20"
+                                                                                            height="20" />&nbsp;&nbsp;${user.userName}</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#"><span
+                                        class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;&nbsp;个人主页</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li><a href="#"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;&nbsp;&nbsp;退出</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/Origami/registerIndex">消息<span class="badge alert-danger" id="msgcount"></span></a></li>
+                        <li><a href="/Origami/registerIndex">积分:${user.integral}</a></li>
+                        <li><a href="/Origami/registerIndex">等级:${user.level}</a></li>
+                    </ul>
+                    <script type="javascript" src="http://localhost:8080/Origami/websocket/sockjs-0.3.min.js"></script>
+                    <script>
+                        var websocket;
+                        if ('WebSocket' in window) {
+                            websocket = new WebSocket("ws://localhost:8080/Origami/webSocketServer");
+                        } else if ('MozWebSocket' in window) {
+                            websocket = new MozWebSocket("ws://localhost:8080/Origami/webSocketServer");
+                        } else {
 
-        </script>
-    </c:otherwise>
-</c:choose>
-<p></p>
+                            websocket = new SockJS("http://localhost:8080/Origami/sockjs/webSocketServer");
+                        }
+                        websocket.onopen = function (evnt) {
+                        };
+                        websocket.onmessage = function (evnt) {
+                            /*if (evnt.data == 0) {
+                                $("#msgcount").html("")
+                            } else {
+                                $("#msgcount").html("(<a href='/Origami/viewNews' target='_blank'><font color='red'>" + evnt.data +
+                                        "</font></a>)")
+                            }*/
+
+                            $("#msgcount").html(evnt.data);
+                        };
+                        websocket.onerror = function (evnt) {
+                        };
+                        websocket.onclose = function (evnt) {
+                        }
+
+                    </script>
+                </c:otherwise>
+            </c:choose>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
 <form name="contentForm" method="post" action="viewTheContents">
     <input type="hidden" name="id" id="id" value="" />
 </form>
-<table border="1">
+<%--<table border="1">
     <c:forEach var="tutorial" items="${tutorials}">
         <tr>
             <td rowspan="2"><img src="${tutorial.titleImgPath}" width="48" length="48"></td>
@@ -69,6 +147,56 @@
             <td>${tutorial.introduce}</td>
         </tr>
     </c:forEach>
-</table>
+</table>--%>
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-6">
+            <h2 class="page-header"></h2>
+            <c:forEach var="tutorial" items="${tutorials}">
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" src="${tutorial.titleImgPath}" width="40" length="40">
+                    </a>
+
+                    <div class="media-body">
+                        <p style="color: #999999;margin-bottom: 3px;margin-left: 5px">提交者:${tutorial.userName}</p>
+                        <h4 class="media-heading"><a href="javascript:show(${tutorial.id})">${tutorial.title}</a></h4>
+
+                        <div class="caption" style="margin-left: 5px">
+                            <p>${tutorial.introduce}</p>
+                            <p style="color: #999999"><span class="glyphicon glyphicon-comment"></span>&nbsp;0条评论
+                            &nbsp;&nbsp;<span class="glyphicon glyphicon-star-empty"></span>&nbsp;收藏</p>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+
+        </div>
+
+
+        <div class="col-xs-4">
+            <h2 class="page-header"></h2>
+
+            <ul class="nav nav-list">
+                <li>
+                    <a href="#" style="color: #646464">
+                        <span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;&nbsp;&nbsp;我的教程
+                    </a>
+                </li>
+                <li>
+                    <a href="#" style="color: #646464">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;&nbsp;&nbsp;我的收藏
+                    </a>
+                </li>
+                <li>
+                    <a href="#" style="color: #646464">
+                        <span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;&nbsp;&nbsp;我评论的
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 </body>
 </html>
