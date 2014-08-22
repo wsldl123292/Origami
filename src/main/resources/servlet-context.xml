@@ -18,6 +18,7 @@
     <resources mapping="/jcrop/**" location="/jcrop/"/>
     <resources mapping="/images/**" location="/WEB-INF/images/"/>
     <resources mapping="/websocket/**" location="/websocket/"/>
+    <resources mapping="/fonts/**" location="/fonts/"/>
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
