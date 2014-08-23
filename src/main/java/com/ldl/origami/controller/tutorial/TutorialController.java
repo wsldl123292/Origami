@@ -53,7 +53,7 @@ public class TutorialController {
         String username = (String) session.getAttribute(Constants.SESSION_USERNAME);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("username", username);
-        modelAndView.setViewName("addTutorial");
+        modelAndView.setViewName("tutorial/addTutorial");
         return modelAndView;
     }
 

@@ -1,0 +1,40 @@
+/*鼠标悬停与内容显示*/
+.navbar .nav > li .dropdown-menu {
+    margin: 0;
+}
+
+.navbar .nav > li:hover .dropdown-menu {
+    display: block;
+}
+
+/*修改内容显示*/
+.media > .pull-left {
+    margin-right: 5px;
+}
+
+.media-heading {
+    margin: 0 5px 3px;
+}
+
+.container {
+    padding-right: 60px;
+    padding-left: 80px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.row {
+    margin-right: -100px;
+    margin-left: 10px;
+}
+
+.col-xs-4 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 80px;
+}
+/*导航栏底色*/
+.navbar-default {
+    background-color: #66C8B1;
+}

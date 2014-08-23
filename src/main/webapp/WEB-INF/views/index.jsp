@@ -4,47 +4,11 @@
 <head>
     <title>折纸教程网</title>
 </head>
-<link href="uploadify/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="bootstrap/user_defined.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="uploadify/jquery.min.js"></script>
-<script type="text/javascript" src="uploadify/bootstrap.min.js"></script>
-<%--鼠标悬停弹出下拉菜单--%>
-<style>
-    .navbar .nav > li .dropdown-menu {
-        margin: 0;
-    }
+<script type="text/javascript" src="bootstrap/bootstrap.min.js"></script>
 
-    .navbar .nav > li:hover .dropdown-menu {
-        display: block;
-    }
-
-    /*修改内容显示*/
-    .media > .pull-left {
-        margin-right: 5px;
-    }
-
-    .media-heading {
-        margin: 0 5px 3px;
-    }
-
-    .container {
-        padding-right: 60px;
-        padding-left: 80px;
-        margin-right: auto;
-        margin-left: auto;
-    }
-
-    .row {
-        margin-right: -100px;
-        margin-left: 10px;
-    }
-
-    .col-xs-4 {
-        position: relative;
-        min-height: 1px;
-        padding-right: 15px;
-        padding-left: 80px;
-    }
-</style>
 <script language="javascript">
     function show(id){
         document.getElementById("id").setAttribute("value",id);
@@ -56,17 +20,17 @@
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">折纸</a>
+            <a class="navbar-brand" href="#" style="color: #ffffff">折纸</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="/Origami/index">首页</a></li>
-                <li><a href="#">排行</a></li>
-                <li><a href="#">发布教程</a></li>
-                <li><a href="#">帮助</a></li>
-                <li><a href="#">建议</a></li>
+                <li><a href="/Origami/index" style="color: #ffffff">首页</a></li>
+                <li><a href="#" style="color: #ffffff">排行</a></li>
+                <li><a href="/Origami/addTutorialPage" target="_blank" style="color: #ffffff">发布教程</a></li>
+                <li><a href="#" style="color: #ffffff">帮助</a></li>
+                <li><a href="#" style="color: #ffffff">建议</a></li>
             </ul>
             <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
@@ -77,8 +41,8 @@
             <c:choose>
                 <c:when test="${user==null}">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/Origami/login">登录</a></li>
-                        <li><a href="/Origami/registerIndex">注册</a></li>
+                        <li><a href="/Origami/login" style="color: #ffffff">登录</a></li>
+                        <li><a href="/Origami/registerIndex" style="color: #ffffff">注册</a></li>
                     </ul>
                 </c:when>
                 <c:otherwise>
@@ -111,13 +75,6 @@
                         websocket.onopen = function (evnt) {
                         };
                         websocket.onmessage = function (evnt) {
-                            /*if (evnt.data == 0) {
-                                $("#msgcount").html("")
-                            } else {
-                                $("#msgcount").html("(<a href='/Origami/viewNews' target='_blank'><font color='red'>" + evnt.data +
-                                        "</font></a>)")
-                            }*/
-
                             $("#msgcount").html(evnt.data);
                         };
                         websocket.onerror = function (evnt) {

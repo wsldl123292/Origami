@@ -19,6 +19,7 @@
     <resources mapping="/images/**" location="/WEB-INF/images/"/>
     <resources mapping="/websocket/**" location="/websocket/"/>
     <resources mapping="/fonts/**" location="/fonts/"/>
+    <resources mapping="/bootstrap/**" location="/bootstrap/"/>
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
@@ -34,6 +35,9 @@
             <exclude-mapping path="/uploadify/**" />
             <exclude-mapping path="/upload/**" />
             <exclude-mapping path="/ueditor/**" />
+            <exclude-mapping path="/websocket/**" />
+            <exclude-mapping path="/bootstrap/**" />
+            <exclude-mapping path="/fonts/**" />
             <exclude-mapping path="/jcrop/**" />
             <exclude-mapping path="/images/**" />
             <exclude-mapping path="/login" />
